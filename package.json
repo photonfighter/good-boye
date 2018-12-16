@@ -1,0 +1,8 @@
+{
+"name":"good-boye",
+"version":"0.0.1",
+"description":"a v good doggo bot",
+"main":"bot.js",
+"author":"Alex & Chandler",
+"dependencies":{}
+}

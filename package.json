@@ -1,8 +1,11 @@
 {
-"name":"good-boye",
-"version":"0.0.1",
-"description":"a v good doggo bot",
-"main":"bot.js",
-"author":"Alex & Chandler",
-"dependencies":{}
+  "name": "good-boye",
+  "version": "0.0.1",
+  "description": "a v good doggo bot",
+  "main": "bot.js",
+  "author": "Alex & Chandler",
+  "dependencies": {
+    "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
+    "winston": "^3.1.0"
+  }
 }

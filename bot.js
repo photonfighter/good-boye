@@ -33,7 +33,7 @@ bot.on('message', function(user, userID, channelID, message, evt) {
 
       case 'ping':
         bot.sendMessage({
-          to: channelID,
+          to: 'botTest',
           message: 'Pong!'
         });
         break;

@@ -1,6 +1,8 @@
-var Discord = require('discord.io'); // Discord Library
+var Discord = require('discord.js'); // Discord Library
 var logger = require('winston'); // Logger library
 var auth = require('./auth.json'); // how we access our auth token
+
+var dispatcher;
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
@@ -10,44 +12,68 @@ logger.add(new logger.transports.Console, {
 logger.level='debug';
 
 // Initialize Discord bot
-var bot = new Discord.Client({
-  token: auth.token,
-  autorun: true
-});
+var bot = new Discord.Client();
+
+
 
 //When the bot is ready, do this stuff
 bot.on('ready', function(evt) {
   // Prints to command line that the bot is running off of
   logger.info('Connected');
-  logger.info('Logged in as: ');
-  logger.info(bot.username + '-(' + bot.id + ')');
+
+  var channel = bot.channels.get("523696357702238226");
+
+  channel.send("FUCKEN READY YO");
+
+
 });
 
-// Do this when the bot receives a message
-bot.on('message', function(user, userID, channelID, message, evt) {
-  logger.info('Message received:' + message);
+bot.on('message', message => {
 
-  // Our bot needs to know if it will execute a command
-  // It will listen for messages that start with '!', for now
-  if(message.substring(0,1)=='!') {
-    logger.info("'!' detected!");
 
-    // Finds a string that starts with !
-    var args = message.substring(1).split('');
-    args = args.join('');
 
-    switch(args) {
-      //!ping
+  if (!message.guild) return;
 
-      case 'ping':
-        logger.info('ping detected!');
-        bot.sendMessage({
-          to: channelID,
-          message: 'Pong!'
-        });
-        break;
+  if (message.content === '/join') {
+    if (message.member.voiceChannel) {
+      message.member.voiceChannel.join().then(connection => {
+        message.reply("Successfully connected to voice channel.");
+        dispatcher = connection.playFile('./bork.mp3');
 
-        // more cases can be added here
+        dispatcher.on('end', () => {
+          connection.playFile('./bork.mp3');
+        })
+      }).catch(console.log);
+    } else {
+      message.reply("Try joining a voice channel first you big dummy");
+    }
+  }
+
+  if (message.content === '/leave') {
+    if (message.member.voiceChannel) {
+      message.member.voiceChannel.leave();
+      message.reply("Peace out.");
+    } else {
+      message.reply("Try joining a voice channel first you big dummy");
+
+    }
+  }
+
+  if (message.content === 'pet') {
+    if(message.member.voiceChannel) {
+      console.log("petted");
+      dispatcher.pause();
     }
   }
 });
+
+
+
+
+
+// Do this when the bot receives a message
+
+
+
+
+bot.login(auth.token);

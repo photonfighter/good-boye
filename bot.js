@@ -39,9 +39,11 @@ bot.on('message', message => {
       message.member.voiceChannel.join().then(connection => {
         message.reply("Successfully connected to voice channel.");
         dispatcher = connection.playFile('./bork.mp3');
+        // dispatcher = connection.playFile('./pet_me.mp3');
 
         dispatcher.on('end', () => {
           connection.playFile('./bork.mp3');
+        //  connection.playFile('./pet_me.mp3');
         })
       }).catch(console.log);
     } else {
